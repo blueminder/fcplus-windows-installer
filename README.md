@@ -1,6 +1,6 @@
 # <img alt="Fightcade+ Installer Icon" src="https://github.com/blueminder/fcplus-windows-installer/assets/504581/60dd558c-f871-4943-883c-36e59aefe822" width="25" /> FC+ Windows Installer
 
-__[Download Latest Version](https://github.com/blueminder/fcplus-windows-installer/releases/download/prerelease4/fcplus_prerelease4.zip)__
+__[Download Latest Version](https://github.com/blueminder/fcplus-windows-installer/releases/latest/download/fcplus.zip)__
 
 The **Fightcade+ Installer** performs the most common post-installation steps [Fightcade](https://www.fightcade.com/) users take, and provides an easy way for users to switch between Flycast Dojo versions without manually messing with folders.
 
