@@ -239,11 +239,11 @@ Section "Virtua Fighter 4: Final Tuned Lua Scripts by Nailok" nailok
     Pop $0 # return value = exit code, "OK" if OK
     DetailPrint "Download Status: $0"
 	InitPluginsDir
-	nsisunz::UnzipToLog "$INSTDIR\VF4-Training.zip" "$INSTDIR\emulator\flycast_previous"
-	Rename "$INSTDIR\emulator\flycast_previous\VF4-Training-master\vf4_training.lua" "$INSTDIR\emulator\flycast_previous\training\vf4tuned.lua"
-	CopyFiles "$INSTDIR\emulator\flycast_previous\VF4-Training-master\cheats" "$INSTDIR\emulator\flycast_previous\cheats"
-	CopyFiles "$INSTDIR\emulator\flycast_previous\VF4-Training-master\vf4_training" "$INSTDIR\emulator\flycast_previous\vf4_training"
-	RMDir /r "$INSTDIR\emulator\flycast_previous\VF4-Training-master"
+	nsisunz::UnzipToLog "$INSTDIR\VF4-Training.zip" "$INSTDIR\emulator\flycast"
+	Rename "$INSTDIR\emulator\flycast\VF4-Training-master\vf4_training.lua" "$INSTDIR\emulator\flycast\training\vf4tuned.lua"
+	CopyFiles "$INSTDIR\emulator\flycast\VF4-Training-master\cheats" "$INSTDIR\emulator\flycast\cheats"
+	CopyFiles "$INSTDIR\emulator\flycast\VF4-Training-master\vf4_training" "$INSTDIR\emulator\flycast\vf4_training"
+	RMDir /r "$INSTDIR\emulator\flycast\VF4-Training-master"
 	Delete "$INSTDIR\VF4-Training.zip"
 	DetailPrint "Virtua Fighter 4: Final Tuned Lua Scripts by Nailok Installed"
 SectionEnd
