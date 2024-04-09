@@ -1,4 +1,5 @@
 !include nsDialogs.nsh
+!include ReplaceInFile3.nsh
 
 Name "Fightcade+ Post"
 OutFile "fcplus.exe"
@@ -127,6 +128,36 @@ Section "Flycast Dojo" fcdojo
 	FileOpen $9 "$INSTDIR\emulator\flycast\VERSION.txt" w
 	FileWrite $9 "dojo-0.5.8"
 	FileClose $9
+
+	StrCpy $OLD_STR "rend.FixedFrequency = 1"
+	StrCpy $FST_OCC all
+	StrCpy $FST_OCC 2
+	StrCpy $NR_OCC all
+	StrCpy $NR_OCC 3
+	StrCpy $REPLACEMENT_STR "rend.FixedFrequency = 1$\r$\nrend.FixedFrequencyThreadSleep = no"
+	StrCpy $FILE_TO_MODIFIED "$INSTDIR\emulator\flycast\emu.default.cfg"
+
+	!insertmacro ReplaceInFile $OLD_STR $FST_OCC $NR_OCC $REPLACEMENT_STR $FILE_TO_MODIFIED ;job done
+
+	Push "rend.FixedFrequency = 1" #text to be replaced
+	Push "rend.FixedFrequency = 1$\r$\nrend.FixedFrequencyThreadSleep = no" #replace with
+	Push all #replace all occurrences
+	Push all #replace all occurrences
+	Push "$INSTDIR\emulator\flycast\emu.default.cfg" #file to replace in
+		Call AdvReplaceInFile
+
+	IfFileExists "$INSTDIR\emulator\flycast\emu.cfg" file_found file_not_found
+	file_found:
+	Push "rend.FixedFrequencyThreadSleep = yes" #text to be replaced
+	Push "rend.FixedFrequencyThreadSleep = no" #replace with
+	Push all #replace all occurrences
+	Push all #replace all occurrences
+	Push "$INSTDIR\emulator\flycast\emu.cfg" #file to replace in
+		Call AdvReplaceInFile
+	goto end_of_test
+	file_not_found:
+	CopyFiles "$INSTDIR\emulator\flycast\emu.default.cfg" "$INSTDIR\emulator\flycast\emu.cfg"
+	end_of_test:
 
 	Rename "$INSTDIR\emulator\flycast" "$INSTDIR\emulator\flycast_previous"
 
