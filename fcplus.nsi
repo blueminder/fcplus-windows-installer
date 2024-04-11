@@ -1,5 +1,6 @@
 !include nsDialogs.nsh
 !include ReplaceInFile3.nsh
+!include StrContains.nsh
 
 Name "Fightcade+ Post"
 OutFile "fcplus.exe"
@@ -122,6 +123,10 @@ Section "Flycast Dojo" fcdojo
 	nsJSON::Get /index 0 "tag_name" /end
 	Pop $R0
 	StrCpy "$FLYCAST_TAG" "$R0"
+	${StrContains} $0 "403" "$FLYCAST_TAG"
+		StrCpy "$FLYCAST_TAG" "dojo-6.12"
+		Goto done
+	done:
 
 	SetOutPath "$INSTDIR"
 
