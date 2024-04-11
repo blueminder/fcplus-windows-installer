@@ -190,13 +190,13 @@ Section "Flycast Dojo" fcdojo
 	FileSeek $9 0 END
 	FileWrite $9 'const appendFlycastTitle = function (fcWindow) {$\n'
 	FileWrite $9 '  const fcDoc = fcWindow.document$\n'
-	FileWrite $9 '  fcDoc.title += " (Flycast Version: $FLYCAST_TAG)"$\n'
+	FileWrite $9 '  fcDoc.title += " (Flycast Version: $FLYCAST_TAG, Prerelease)"$\n'
 	FileWrite $9 '}$\n$\n'
 	FileWrite $9 'appendFlycastTitle(window)$\n'
 	FileClose $9
 
 	DetailPrint "Downloading Switch Fightcade Flycast Version Script"
-	inetc::get /POPUP "" /CAPTION "Switch Fightcade Flycast Version Utility" "https://github.com/blueminder/switch-fightcade-flycast/releases/download/0.1/switch-fightcade-flycast-0.1.zip" "$INSTDIR\emulator\switch-fightcade-flycast.zip"
+	inetc::get /POPUP "" /CAPTION "Switch Fightcade Flycast Version Utility" "https://github.com/blueminder/switch-fightcade-flycast/releases/download/0.2/switch-fightcade-flycast-0.2.zip" "$INSTDIR\emulator\switch-fightcade-flycast.zip"
     Pop $0 # return value = exit code, "OK" if OK
     DetailPrint "Download Status: $0"
 
