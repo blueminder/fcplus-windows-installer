@@ -124,7 +124,7 @@ Section "Flycast Dojo" fcdojo
 	Pop $R0
 	StrCpy "$FLYCAST_TAG" "$R0"
 	${StrContains} $0 "403" "$FLYCAST_TAG"
-		StrCpy "$FLYCAST_TAG" "dojo-6.28"
+		StrCpy "$FLYCAST_TAG" "dojo-6.30"
 		Goto done
 	done:
 
