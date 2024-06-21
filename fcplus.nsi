@@ -2,6 +2,28 @@
 !include ReplaceInFile3.nsh
 !include StrContains.nsh
 
+!define SF_USELECTED  0
+
+!macro SecSelect SecId
+  Push $0
+  IntOp $0 ${SF_SELECTED} | ${SF_RO}
+  SectionSetFlags ${SecId} $0
+  SectionSetInstTypes ${SecId} 1
+  Pop $0
+!macroend
+
+!define SelectSection '!insertmacro SecSelect'
+
+!macro SecUnSelect SecId
+  Push $0
+  IntOp $0 ${SF_USELECTED} | ${SF_RO}
+  SectionSetFlags ${SecId} $0
+  SectionSetText  ${SecId} ""
+  Pop $0
+!macroend
+
+!define UnSelectSection '!insertmacro SecUnSelect'
+
 Name "Fightcade+ Post"
 OutFile "fcplus.exe"
 Icon "fcplus.ico"
@@ -33,17 +55,6 @@ Var EDIT_LABEL
 
 Var CustomZip
 
-Function .onInit
-	StrCpy $CHECKBOX ${BST_CHECKED}
-	GetFunctionAddress $0 OnJoyCheckbox
-	StrCpy $CHECKBOX1 ${BST_CHECKED}
-	GetFunctionAddress $0 OnDojoCheckbox
-	StrCpy $CHECKBOX2 ${BST_CHECKED}
-	GetFunctionAddress $0 OnGrouflonCheckbox
-	StrCpy $CHECKBOX3 ${BST_CHECKED}
-	GetFunctionAddress $0 OnNailokCheckbox
-FunctionEnd
-
 Function nsDialogsPage
 	nsDialogs::Create 1018
 	Pop $0
@@ -56,7 +67,6 @@ Function nsDialogsPage
 
 	${NSD_CreateCheckbox} 0 40 100% 8u "Latest Flycast Dojo Prerelease"
 		Pop $CHECKBOX1
-		${NSD_SetState} $CHECKBOX1 $CHECKBOX1
 		GetFunctionAddress $0 OnDojoCheckbox
 		nsDialogs::OnClick $CHECKBOX1 $0
 
@@ -131,7 +141,7 @@ Section "Flycast Dojo" fcdojo
 	SetOutPath "$INSTDIR"
 
 	FileOpen $9 "$INSTDIR\emulator\flycast\VERSION.txt" w
-	FileWrite $9 "dojo-0.5.8"
+	FileWrite $9 "dojo-6.30"
 	FileClose $9
 
 	StrCpy $OLD_STR "rend.FixedFrequency = 1"
@@ -233,14 +243,11 @@ SectionEnd
 
 Function OnDojoCheckbox
 	Pop $0 # HWND
+	${NSD_GetState} $0 $0
 	${If} $0 == 1
-		SectionGetFlags ${fcdojo} $0
-		IntOp $0 $0 & ${SECTION_OFF}
-		SectionSetFlags ${fcdojo} $0
+		${SelectSection} ${fcdojo}
 	${Else}
-		SectionGetFlags ${fcdojo} $R0
-		IntOp $0 $0 & ${SF_SELECTED}
-		SectionSetFlags ${fcdojo} $0
+		${UnSelectSection} ${fcdojo}
 	${EndIf}
 FunctionEnd
 
@@ -333,4 +340,15 @@ Function OnZipCheckbox
 		IntOp $0 $0 & ${SECTION_OFF}
 		SectionSetFlags ${customzip} $0
 	${EndIf}
+FunctionEnd
+
+Function .onInit
+	StrCpy $CHECKBOX ${BST_CHECKED}
+	GetFunctionAddress $0 OnJoyCheckbox
+	StrCpy $CHECKBOX1 ${BST_UNCHECKED}
+	${UnSelectSection} ${fcdojo}
+	StrCpy $CHECKBOX2 ${BST_CHECKED}
+	GetFunctionAddress $0 OnGrouflonCheckbox
+	StrCpy $CHECKBOX3 ${BST_CHECKED}
+	GetFunctionAddress $0 OnNailokCheckbox
 FunctionEnd
